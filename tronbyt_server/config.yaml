@@ -1,11 +1,28 @@
 name: "Tronbyt Server"
-description: "Supervisor-managed Docker add-on for ghcr.io/tronbyt/server"
 version: "1.0.0"
-slug: "tronbyt_server"
-init: false
+slug: "tronbyt-server"
+description: "Supervisor-managed Docker add-on for ghcr.io/tronbyt/server"
 arch:
   - amd64
   - armv7
   - armhf
   - aarch64
-  - i386
+startup: services
+boot: auto
+image: ghcr.io/tronbyt/server:latest
+options:
+  HOST: "0.0.0.0"
+  PORT: 8000
+  SYSTEM_APPS_REPO: "https://github.com/tronbyt/apps.git"
+schema:
+  HOST: str
+  PORT: int
+  SYSTEM_APPS_REPO: str
+ports:
+  "8000/tcp": 8000
+map:
+  - config:rw
+  - ssl:ro
+  - media:rw
+webui: "http://[HOST]:[PORT]"
+
